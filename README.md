@@ -23,12 +23,12 @@ To run the app from your IDE:
 
 1. Import the project into your IDE
 2. Run `mvn -C clean package` in the project, to configure Vaadin for npm mode.
-3. Run/Debug the `ManualJetty` class as an application (run the `main()` method).
+3. Run/Debug the `Main` class as an application (run the `main()` method).
    The app will use npm to download all javascript libraries (will take a long time)
    and will start in development mode.
 4. Your app will be running on [http://localhost:8080](http://localhost:8080).
    
-See [ManualJetty.java](src/main/java/com/vaadin/starter/skeleton/ManualJetty.java)
+See [Main.java](src/main/java/com/vaadin/starter/skeleton/Main.java)
 for details on how Jetty is configured for embedded mode.
 
 ### Missing `/src/main/webapp`?
