@@ -2,11 +2,9 @@ package com.vaadin.starter.skeleton;
 
 import com.vaadin.flow.server.VaadinServlet;
 import com.vaadin.flow.server.startup.ServletContextListeners;
-import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.*;
-import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,8 +23,8 @@ public final class ManualJetty {
     }
 
     public static void start(String[] args) throws Exception {
-        // use pnpm instead of npm
-        System.setProperty("vaadin.pnpmEnable", "true");
+        // change this to e.g. /foo to host your app on a different context root
+        final String contextRoot = "/";
 
         // detect&enable production mode
         if (isProductionMode()) {
@@ -37,20 +35,12 @@ public final class ManualJetty {
 
         final WebAppContext context = new WebAppContext();
         context.setBaseResource(findWebRoot());
-        context.setContextPath("/");
+        context.setContextPath(contextRoot);
         context.addServlet(VaadinServlet.class, "/*");
         context.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*\\.jar|.*/classes/.*");
         context.setConfigurationDiscovered(true);
-        context.setConfigurations(new Configuration[] {
-                new AnnotationConfiguration(),
-                new WebInfConfiguration(),
-                new WebXmlConfiguration(),
-                new MetaInfConfiguration()
-                // new FragmentConfiguration() // ignores META-INF/web-fragment.xml from this jar, we have to do the production mode detection manually
-        });
         context.getServletContext().setExtendedListenerTypes(true);
         context.addEventListener(new ServletContextListeners());
-        WebSocketServerContainerInitializer.initialize(context); // fixes IllegalStateException: Unable to configure jsr356 at that stage. ServerContainer is null
 
         int port = 8080;
         if (args.length >= 1) {
