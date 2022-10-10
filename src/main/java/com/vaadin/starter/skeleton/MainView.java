@@ -7,7 +7,6 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +17,11 @@ import java.util.stream.Stream;
  * The main view contains a button and a click listener.
  */
 @Route("")
-@PWA(name = "Project Base for Vaadin", shortName = "Project Base")
 public class MainView extends VerticalLayout {
 
     public MainView() {
 
+        // @todo mavi sorting doesn't work, fix!
         DataProvider<Person, Void> dp = createPersonDataProvider();
 
         final Grid<Person> personGrid = new Grid<>(Person.class);

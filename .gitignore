@@ -15,7 +15,8 @@
 # The following files are generated/updated by vaadin-maven-plugin
 node_modules/
 
-webpack.generated.js
+vite.generated.js
+frontend/generated
 
 # local node+npm downloaded via frontend-maven-plugin
 node
