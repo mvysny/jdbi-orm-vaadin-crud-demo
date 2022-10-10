@@ -12,7 +12,7 @@ for more details.
 
 ## Running
 
-Clone this github repository and import the project to the IDE of your choice as a Maven project. You need to have Java 8 or 11 installed.
+Clone this github repository and import the project to the IDE of your choice as a Maven project. You need to have Java 11+ installed.
 
 To run quickly from the command-line in development mode:
 
