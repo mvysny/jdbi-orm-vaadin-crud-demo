@@ -8,6 +8,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The form, which edits a single {@link Person}.
@@ -17,6 +18,7 @@ import com.vaadin.flow.data.converter.StringToIntegerConverter;
  * </ul>
  */
 public class PersonForm extends FormLayout {
+    @NotNull
     public final Binder<Person> binder = new BeanValidationBinder<>(Person.class);
 
     public PersonForm() {
