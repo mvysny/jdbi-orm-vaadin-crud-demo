@@ -14,9 +14,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
         <vaadin.version>23.2.6</vaadin.version>
-        <jetty.version>10.0.11</jetty.version>
     </properties>
 
     <dependencyManagement>
@@ -37,23 +35,18 @@
             <!-- Replace artifactId with vaadin-core to use only free components -->
             <artifactId>vaadin-core</artifactId>
         </dependency>
+        <!-- Vaadin Boot which runs Vaadin apps from main() function easily: https://github.com/mvysny/vaadin-boot -->
+        <dependency>
+            <groupId>com.github.mvysny.vaadin-boot</groupId>
+            <artifactId>vaadin-boot</artifactId>
+            <version>10.1</version>
+        </dependency>
 
         <!-- Added to provide logging output as Vaadin uses -->
         <!-- the unbound SLF4J no-operation (NOP) logger implementation -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-javax-server</artifactId>
-            <version>${jetty.version}</version>
         </dependency>
 
         <dependency>
