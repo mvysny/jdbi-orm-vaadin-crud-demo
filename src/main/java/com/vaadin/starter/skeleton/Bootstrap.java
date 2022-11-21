@@ -3,6 +3,9 @@ package com.vaadin.starter.skeleton;
 import com.gitlab.mvysny.jdbiorm.JdbiOrm;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.flywaydb.core.Flyway;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -24,6 +27,9 @@ public class Bootstrap implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        log.info("Starting up");
+
+        log.info("Initializing the database connection");
         // 1. Initialize the database.
         // JDBI-ORM requires a JDBC DataSource. We will use
         // the HikariCP connection pool which keeps certain amount of JDBC connections around since they're expensive
@@ -36,22 +42,16 @@ public class Bootstrap implements ServletContextListener {
         JdbiOrm.setDataSource(new HikariDataSource(hikariConfig));
         // Done! The database layer is now ready to be used.
 
-        // 2. Let's prepare the database and create the database tables.
-        // Generally you should use FlyWay to migrate your database to newer version,
-        // but I wanted to keep things simple here.
-        jdbi().useHandle(handle -> handle.createUpdate("create table if not exists Person (\n" +
-                "                id bigint primary key auto_increment,\n" +
-                "                name varchar not null,\n" +
-                "                age integer not null,\n" +
-                "                dateOfBirth date,\n" +
-                "                created timestamp,\n" +
-                "                modified timestamp,\n" +
-                "                alive boolean,\n" +
-                "                maritalStatus varchar" +
-                ")").execute());
+        log.info("Migrating database to newest version");
+        final Flyway flyway = Flyway.configure()
+                .dataSource(JdbiOrm.getDataSource())
+                .load();
+        flyway.migrate();
 
-        // 3. Generate some example data
+        log.info("Generating testing data");
         generateTestingData();
+
+        log.info("Started");
     }
 
     public static void generateTestingData() {
@@ -65,9 +65,14 @@ public class Bootstrap implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        log.info("Shutting down");
         // Tear down the app. Simply close the JDBI-ORM, which will close the
         // underlying HikariDataSource, which will clean up the pool, close
         // all pooled JDBC connections, stop all threads etc.
         JdbiOrm.destroy();
+
+        log.info("Shutdown complete");
     }
+
+    private static final Logger log = LoggerFactory.getLogger(Bootstrap.class);
 }
