@@ -56,7 +56,7 @@ public class MainView extends VerticalLayout {
             personGrid.getDataProvider().refreshAll();
         })).setKey("delete");
 
-        personGrid.setDataProvider(new EntityDataProvider<>(Person.dao));
+        personGrid.setItems(new EntityDataProvider<>(Person.dao));
         add(personGrid);
     }
 }
