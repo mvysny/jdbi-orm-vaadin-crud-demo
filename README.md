@@ -5,10 +5,13 @@
 A demo project showing the CRUD capabilities of the [JDBI-ORM](https://gitlab.com/mvysny/jdbi-orm)
 ORM library.
 
-Both the development and production modes are supported. Also, the project
-demoes packaging itself both into a flatten uberjar and a zip file containing
-a list of jars and a runner script. See "Packaging for production" below
-for more details.
+The [Person](src/main/java/com/vaadin/starter/skeleton/Person.java)
+entity is mapped to the database tables; inheriting from Entity and Dao
+will make it inherit a bunch of useful methods such as `findAll()` and `save()`. It will also gain means of
+providing all of its instances via a `DataProvider`. See the [MainView](src/main/java/com/vaadin/starter/skeleton/MainView.java)
+Grid configuration for details.
+
+See the [live demo](https://v-herd.eu/jdbi-orm-vaadin14-crud-demo/).
 
 # Documentation
 
@@ -23,9 +26,3 @@ use in-memory H2 database which will be gone when the server is rebooted - *touc
 
 We will use [Flyway](https://flywaydb.org/) for database migration. Check out [Bootstrap](src/main/java/com/vaadin/starter/skeleton/Bootstrap.java)
 on how the [migration scripts](src/main/resources/db/migration) are ran when the app is initialized.
-
-The [Person](src/main/java/com/vaadin/starter/skeleton/Person.java)
-entity is mapped to the database tables; inheriting from Entity and Dao
-will make it inherit a bunch of useful methods such as `findAll()` and `save()`. It will also gain means of
-providing all of its instances via a `DataProvider`. See the [MainView](src/main/java/com/vaadin/starter/skeleton/MainView.java)
-Grid configuration for details.
