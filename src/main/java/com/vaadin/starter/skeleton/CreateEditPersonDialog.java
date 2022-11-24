@@ -3,6 +3,8 @@ package com.vaadin.starter.skeleton;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -11,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
+ * A dialog which edits given {@link #person}.
  * @author mavi
  */
 public class CreateEditPersonDialog extends Dialog {
@@ -20,6 +23,9 @@ public class CreateEditPersonDialog extends Dialog {
     @NotNull
     public Runnable onSaveOrCreateListener = () -> {};
 
+    /**
+     * The form which actually edits a person.
+     */
     private final PersonForm form = new PersonForm();
 
     public CreateEditPersonDialog(@NotNull Person person) {
@@ -51,6 +57,7 @@ public class CreateEditPersonDialog extends Dialog {
 
     private void okPressed() {
         if (!form.binder.validate().isOk() || !form.binder.writeBeanIfValid(person)) {
+            Notification.show("There are errors in the form").addThemeVariants(NotificationVariant.LUMO_ERROR, NotificationVariant.LUMO_PRIMARY);
             return;
         }
         person.save();

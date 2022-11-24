@@ -14,8 +14,10 @@ import javax.servlet.annotation.WebListener;
 import static com.gitlab.mvysny.jdbiorm.JdbiOrm.jdbi;
 
 /**
- * A standard servlet context listener, run by the servlet container such as Tomcat.
+ * Boots up the application: configures the SQL database, starts up all services, etc.
  * Configures JDBI-ORM and creates the SQL table for the {@link Person} entity.
+ * <p></p>
+ * A standard servlet context listener, run by the servlet container such as Tomcat.
  */
 @WebListener
 public class Bootstrap implements ServletContextListener {

@@ -19,6 +19,8 @@ public class MainView extends VerticalLayout {
             .withLocale(UI.getCurrent().getLocale());
 
     public MainView() {
+        setSizeFull();
+
         final Grid<Person> personGrid = new Grid<>();
         // Don't forget to add database index to every sortable column.
         personGrid.addColumn(Person::getId)
@@ -57,6 +59,7 @@ public class MainView extends VerticalLayout {
         })).setKey("delete");
 
         personGrid.setItems(new EntityDataProvider<>(Person.dao));
+        personGrid.setSizeFull();
         add(personGrid);
     }
 }
