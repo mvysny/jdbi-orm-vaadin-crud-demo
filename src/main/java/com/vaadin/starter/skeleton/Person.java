@@ -186,7 +186,7 @@ public class Person implements Entity<Long> {
         final Person person = new Person("Jon Lord" + i, 42);
         person.setDateOfBirth(LocalDate.of(1970, 1, 12).plusDays(i));
         person.setAlive(i % 2 == 0);
-        person.setMaritalStatus(Utils.random(Person.MaritalStatus.class));
+        person.setMaritalStatus(Person.MaritalStatus.values()[i % MaritalStatus.values().length]);
         person.save();
         return person;
     }
