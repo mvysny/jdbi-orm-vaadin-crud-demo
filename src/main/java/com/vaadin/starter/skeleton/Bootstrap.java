@@ -11,8 +11,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import java.time.LocalDate;
-
 import static com.gitlab.mvysny.jdbiorm.JdbiOrm.jdbi;
 
 /**
@@ -43,6 +41,9 @@ public class Bootstrap implements ServletContextListener {
         // Done! The database layer is now ready to be used.
 
         log.info("Migrating database to newest version");
+        // see https://flywaydb.org/ for more information. In short, Flyway will
+        // apply scripts from src/main/resources/db/migration/, but only those that
+        // haven't been applied yet.
         final Flyway flyway = Flyway.configure()
                 .dataSource(JdbiOrm.getDataSource())
                 .load();

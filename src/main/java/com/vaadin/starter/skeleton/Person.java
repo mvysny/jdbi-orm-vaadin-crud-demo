@@ -157,6 +157,7 @@ public class Person implements Entity<Long> {
         Entity.super.save(validate);
     }
 
+    @org.jetbrains.annotations.NotNull
     public static final PersonDao dao = new PersonDao();
 
     public static class PersonDao extends Dao<Person, Long> {
@@ -177,9 +178,10 @@ public class Person implements Entity<Long> {
 
     /**
      * Creates a dummy person the database.
-     * @param i
-     * @return
+     * @param i the person number
+     * @return the new person, already saved in the database
      */
+    @org.jetbrains.annotations.NotNull
     public static Person createDummy(int i) {
         final Person person = new Person("Jon Lord" + i, 42);
         person.setDateOfBirth(LocalDate.of(1970, 1, 12));
