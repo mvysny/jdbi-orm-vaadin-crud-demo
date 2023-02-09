@@ -11,7 +11,7 @@ will make it inherit a bunch of useful methods such as `findAll()` and `save()`.
 providing all of its instances via a `DataProvider`. See the [MainView](src/main/java/com/vaadin/starter/skeleton/MainView.java)
 Grid configuration for details.
 
-See the [live demo](https://v-herd.eu/jdbi-orm-vaadin14-crud-demo/).
+See the [live demo](https://v-herd.eu/jdbi-orm-vaadin-crud-demo/).
 
 # Documentation
 
