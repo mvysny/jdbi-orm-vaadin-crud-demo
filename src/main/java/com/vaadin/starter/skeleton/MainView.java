@@ -1,6 +1,7 @@
 package com.vaadin.starter.skeleton;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
@@ -20,8 +21,12 @@ public class MainView extends VerticalLayout {
 
     public MainView() {
         setSizeFull();
-
         final Grid<Person> personGrid = new Grid<>();
+        add(new Button("Re-generate test data", e -> {
+            Bootstrap.generateTestingData();
+            personGrid.getDataProvider().refreshAll();
+        }));
+
         // Don't forget to add database index to every sortable column.
         personGrid.addColumn(Person::getId)
                 .setHeader("ID")
@@ -59,7 +64,7 @@ public class MainView extends VerticalLayout {
         })).setKey("delete");
 
         personGrid.setItems(new EntityDataProvider<>(Person.dao));
-        personGrid.setSizeFull();
-        add(personGrid);
+        personGrid.setWidthFull();
+        addAndExpand(personGrid);
     }
 }
