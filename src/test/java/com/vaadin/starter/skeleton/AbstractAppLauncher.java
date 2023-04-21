@@ -17,7 +17,7 @@ public abstract class AbstractAppLauncher {
 
     @BeforeAll
     public static void setup() {
-        // Typically we would have to laborously mock out the database in order to test the UI,
+        // Typically we would have to laboriously mock out the database in order to test the UI,
         // but we really don't have to: it's very easy to bootstrap the application
         // including the database. And so we can simply perform a full system testing right away very fast.
         new Bootstrap().contextInitialized(null);
