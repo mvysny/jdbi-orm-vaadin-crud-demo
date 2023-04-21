@@ -1,10 +1,10 @@
 create table Person (
-  id bigint primary key auto_increment,
-  name varchar not null,
+  id bigserial primary key,
+  name varchar(400) not null,
   age integer not null,
   dateOfBirth date,
   created timestamp,
   modified timestamp,
   alive boolean,
-  maritalStatus varchar
+  maritalStatus varchar(200)
 )

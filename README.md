@@ -26,3 +26,29 @@ use in-memory H2 database which will be gone when the server is rebooted - *touc
 
 We will use [Flyway](https://flywaydb.org/) for database migration. Check out [Bootstrap](src/main/java/com/vaadin/starter/skeleton/Bootstrap.java)
 on how the [migration scripts](src/main/resources/db/migration) are ran when the app is initialized.
+
+### PostgreSQL
+
+You can also use the PostgreSQL database - simply set the `JDBC_URL`, `JDBC_USERNAME` and `JDBC_PASSWORD` env variables
+accordingly. To test out, you can start PostgreSQL in docker:
+
+```bash
+docker run --rm -ti -e POSTGRES_PASSWORD=mysecretpassword -p 127.0.0.1:5432:5432 postgres:15.2
+```
+
+That will create a database named `postgres`, username `postgres` and password `mysecretpassword`.
+Then set the env variables as follows:
+
+```bash
+export JDBC_URL="jdbc:postgresql://localhost:5432/postgres"
+export JDBC_USERNAME="postgres"
+export JDBC_PASSWORD="mysecretpassword"
+```
+
+To run tests on PostgreSQL, run Maven as follows:
+
+```bash
+$ mvn -C test -DargLine="-Dtest.postgresql"
+```
+
+The tests will start PostgreSQL in Docker using TestContainers automatically.

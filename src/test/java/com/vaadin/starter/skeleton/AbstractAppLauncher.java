@@ -14,20 +14,27 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public abstract class AbstractAppLauncher {
     private static Routes routes;
+    private static final PostgreSQLUtils postgreSQLUtils = new PostgreSQLUtils();
 
     @BeforeAll
     public static void setup() {
+        // initialize routes only once, to avoid view auto-detection before every test and to speed up the tests
+        routes = new Routes().autoDiscoverViews("com.vaadin.starter.skeleton");
+        // start PostgreSQL if we're testing with postgres. This will also fill in env variables, so
+        // that Bootstrap will then connect to PostgreSQL
+        if (PostgreSQLUtils.isTestWithPGSQL()) {
+            postgreSQLUtils.start();
+        }
         // Typically we would have to laboriously mock out the database in order to test the UI,
         // but we really don't have to: it's very easy to bootstrap the application
         // including the database. And so we can simply perform a full system testing right away very fast.
         new Bootstrap().contextInitialized(null);
-        // initialize routes only once, to avoid view auto-detection before every test and to speed up the tests
-        routes = new Routes().autoDiscoverViews("com.vaadin.starter.skeleton");
     }
 
     @AfterAll
     public static void teardown() {
         new Bootstrap().contextDestroyed(null);
+        postgreSQLUtils.stop();
     }
 
     @BeforeEach

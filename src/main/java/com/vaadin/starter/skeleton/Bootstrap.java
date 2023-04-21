@@ -21,6 +21,10 @@ import static com.gitlab.mvysny.jdbiorm.JdbiOrm.jdbi;
  */
 @WebListener
 public class Bootstrap implements ServletContextListener {
+    public static String jdbcUrl = System.getenv("JDBC_URL");
+    public static String jdbcUsername = System.getenv("JDBC_USERNAME");
+    public static String jdbcPassword = System.getenv("JDBC_PASSWORD");
+
     /**
      * Initializes the application.
      * @param servletContextEvent unused
@@ -30,13 +34,21 @@ public class Bootstrap implements ServletContextListener {
         log.info("Starting up");
 
         log.info("Initializing the database connection");
+        if (jdbcUrl == null) {
+            jdbcUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
+            jdbcUsername = "sa";
+            jdbcPassword = "";
+        }
+        log.info("Connecting to " + jdbcUrl + " as " + jdbcUsername);
         // 1. Initialize the database.
         // JDBI-ORM requires a JDBC DataSource. We will use
         // the HikariCP connection pool which keeps certain amount of JDBC connections around since they're expensive
         // to construct.
         final HikariConfig hikariConfig = new HikariConfig();
         // We tell HikariCP to use the in-memory H2 database.
-        hikariConfig.setJdbcUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+        hikariConfig.setJdbcUrl(jdbcUrl);
+        hikariConfig.setUsername(jdbcUsername);
+        hikariConfig.setPassword(jdbcPassword);
         hikariConfig.setMinimumIdle(0);
         // Let's create the DataSource and set it to JDBI-ORM
         JdbiOrm.setDataSource(new HikariDataSource(hikariConfig));
@@ -46,8 +58,10 @@ public class Bootstrap implements ServletContextListener {
         // see https://flywaydb.org/ for more information. In short, Flyway will
         // apply scripts from src/main/resources/db/migration/, but only those that
         // haven't been applied yet.
+        final boolean isPostgres = jdbcUrl.contains("postgres");
         final Flyway flyway = Flyway.configure()
                 .dataSource(JdbiOrm.getDataSource())
+                .locations("db/migration/common", isPostgres ? "db/migration/postgres" : "db/migration/h2")
                 .load();
         flyway.migrate();
 
