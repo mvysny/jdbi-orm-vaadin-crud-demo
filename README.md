@@ -52,3 +52,20 @@ $ mvn -C test -DargLine="-Dtest.postgresql"
 ```
 
 The tests will start PostgreSQL in Docker using TestContainers automatically.
+
+## Docker/Kubernetes
+
+The easiest way to run the app in Docker is to run the app with the embedded H2 database.
+See the [Dockerfile](Dockerfile) for more documentation on how to build the docker image
+and run it.
+
+To run the app with PostgreSQL, the easiest way is to run PostgreSQL in a separate docker image,
+then connect the images. That's exactly what [docker-compose.yaml](docker-compose.yaml)
+is doing: it's starting the app in one Docker container, PostgreSQL in another, and
+connects them in a private network. It then configures the app via env variables
+to connect to the `postgres` machine running PostgreSQL. To run this setup,
+run
+
+```bash
+$ docker-compose up
+```
