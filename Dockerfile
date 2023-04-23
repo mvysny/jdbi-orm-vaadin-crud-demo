@@ -1,8 +1,8 @@
 # Allows you to run this app easily as a docker container.
 # See README.md for more details.
 #
-# 1. Build the image with: docker build --no-cache -t test/jdbi-orm-vaadin14-crud-demo:latest .
-# 2. Run the image with: docker run --rm -ti -p8080:8080 test/jdbi-orm-vaadin14-crud-demo
+# 1. Build the image with: docker build --no-cache -t test/jdbi-orm-vaadin-crud-demo:latest .
+# 2. Run the image with: docker run --rm -ti -p8080:8080 test/jdbi-orm-vaadin-crud-demo
 #
 # Uses Docker Multi-stage builds: https://docs.docker.com/build/building/multi-stage/
 

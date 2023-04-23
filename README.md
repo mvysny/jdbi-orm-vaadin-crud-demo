@@ -53,7 +53,7 @@ $ mvn -C test -DargLine="-Dtest.postgresql"
 
 The tests will start PostgreSQL in Docker using TestContainers automatically.
 
-## Docker/Kubernetes
+## Docker
 
 The easiest way to run the app in Docker is to run the app with the embedded H2 database.
 See the [Dockerfile](Dockerfile) for more documentation on how to build the docker image
@@ -68,4 +68,26 @@ run
 
 ```bash
 $ docker-compose up
+```
+
+## Kubernetes
+
+Please see the [Vaadin app with persistent PostgreSQL in Kubernetes](https://mvysny.github.io/kubernetes-vaadin-app-postgresql/)
+article for an explanation how this works. In short, make sure that the necessary plugins are enabled:
+
+```bash
+$ microk8s enable dns hostpath-storage registry
+```
+
+Then, build the Docker image and push it to the Microk8s internal registry:
+
+```bash
+$ docker build --no-cache -t localhost:32000/test/jdbi-orm-vaadin-crud-demo:latest .
+$ docker push localhost:32000/test/jdbi-orm-vaadin-crud-demo
+```
+
+Then, apply the [Kubernetes config file](kubernetes-app.yaml):
+
+```bash
+$ mkctl apply -f kubernetes-app.yaml
 ```
