@@ -50,10 +50,11 @@ public class Bootstrap implements ServletContextListener {
         hikariConfig.setUsername(jdbcUsername);
         hikariConfig.setPassword(jdbcPassword);
         hikariConfig.setMinimumIdle(0);
-        // wait 5 seconds for the connection to become available. This is important for
+        // wait at most 60 seconds for the connection to become available. This is important for
         // docker-compose since both the app and the database are starting at the same time,
         // and we have to wait until the database becomes ready.
-        hikariConfig.setInitializationFailTimeout(5000);
+        // This should also give enough time for Kubernetes/docker-compose to pull all necessary images.
+        hikariConfig.setInitializationFailTimeout(60000);
         // Let's create the DataSource and set it to JDBI-ORM
         JdbiOrm.setDataSource(new HikariDataSource(hikariConfig));
         // Done! The database layer is now ready to be used.
