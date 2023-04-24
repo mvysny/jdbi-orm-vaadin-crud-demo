@@ -91,3 +91,5 @@ Then, apply the [Kubernetes config file](kubernetes-app.yaml):
 ```bash
 $ mkctl apply -f kubernetes-app.yaml
 ```
+You should be able to browse to [localhost](http://localhost)
+and see the app up-and-running.
