@@ -77,5 +77,63 @@ spec:
                 port:
                   number: 8080
 
+#
 # Next, we'll configure the database.
-# TODO
+#
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: jdbi-orm-vaadin-crud-demo
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: { requests: { storage: 512Mi } }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql-deployment
+  namespace: jdbi-orm-vaadin-crud-demo
+spec:
+  selector:
+    matchLabels:
+      app: postgres-pod
+  template:
+    metadata:
+      labels:
+        app: postgres-pod
+    spec:
+      volumes:
+        - name: postgres-vol
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+      containers:
+        - name: postgresql
+          image: postgres:15.2
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: mysecretpassword
+          resources:
+            requests:
+              memory: "2Mi"
+              cpu: 0
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: postgres-vol
+              mountPath: /var/lib/postgresql/data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres  # this will also be the DNS name of the VM running this service.
+  namespace: jdbi-orm-vaadin-crud-demo
+spec:
+  selector:
+    app: postgres-pod
+  ports:
+    - port: 5432
