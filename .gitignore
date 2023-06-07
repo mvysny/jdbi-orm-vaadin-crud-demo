@@ -12,13 +12,6 @@
 .classpath
 .project
 
-# The following files are generated/updated by vaadin-maven-plugin
-node_modules/
-
-vite.generated.js
 frontend/generated
-
-# local node+npm downloaded via frontend-maven-plugin
-node
 
 !**/src/main/dev-bundle/webapp/VAADIN/build
