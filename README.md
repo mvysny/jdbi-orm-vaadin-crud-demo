@@ -3,7 +3,7 @@
 # JDBI-ORM demo using Vaadin
 
 A demo project showing the CRUD capabilities of the [JDBI-ORM](https://gitlab.com/mvysny/jdbi-orm)
-ORM library. Requires Java 17+.
+ORM library. Requires Java 17+. Uses [jdbi-orm-vaadin](https://gitlab.com/mvysny/jdbi-orm-vaadin).
 
 The [Person](src/main/java/com/vaadin/starter/skeleton/Person.java)
 entity is mapped to the database tables; inheriting from Entity and Dao
