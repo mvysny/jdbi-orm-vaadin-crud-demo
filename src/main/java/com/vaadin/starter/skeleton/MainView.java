@@ -1,5 +1,6 @@
 package com.vaadin.starter.skeleton;
 
+import com.gitlab.mvysny.jdbiorm.vaadin.EntityDataProvider;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -63,7 +64,7 @@ public class MainView extends VerticalLayout {
             personGrid.getDataProvider().refreshAll();
         })).setKey("delete");
 
-        personGrid.setItems(new EntityDataProvider<>(Person.dao));
+        personGrid.setDataProvider(new EntityDataProvider<>(Person.class));
         personGrid.setWidthFull();
         addAndExpand(personGrid);
     }
