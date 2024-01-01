@@ -1,12 +1,16 @@
 package com.vaadin.starter.skeleton;
 
+import com.gitlab.mvysny.jdbiorm.condition.Condition;
 import com.gitlab.mvysny.jdbiorm.vaadin.EntityDataProvider;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
+import com.vaadin.starter.skeleton.utils.FilterTextField;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -19,10 +23,14 @@ public class MainView extends VerticalLayout {
 
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
             .withLocale(UI.getCurrent().getLocale());
+    private final EntityDataProvider<Person> dataProvider = new EntityDataProvider<>(Person.class);
+    private final FilterTextField nameFilter = new FilterTextField();
 
     public MainView() {
         setSizeFull();
         final Grid<Person> personGrid = new Grid<>();
+        personGrid.appendHeaderRow();
+        final HeaderRow filterBar = personGrid.appendHeaderRow();
         add(new Button("Re-generate test data", e -> {
             Bootstrap.generateTestingData();
             personGrid.getDataProvider().refreshAll();
@@ -33,10 +41,12 @@ public class MainView extends VerticalLayout {
                 .setHeader("ID")
                 .setSortable(true)
                 .setKey("id");
-        personGrid.addColumn(Person::getName)
+        final Grid.Column<Person> nameColumn = personGrid.addColumn(Person::getName)
                 .setHeader("Name")
                 .setSortable(true)
                 .setKey("name");
+        filterBar.getCell(nameColumn).setComponent(nameFilter);
+        nameFilter.addValueChangeListener(e -> updateFilter());
         personGrid.addColumn(Person::getAge)
                 .setHeader("Age")
                 .setSortable(true)
@@ -64,8 +74,17 @@ public class MainView extends VerticalLayout {
             personGrid.getDataProvider().refreshAll();
         })).setKey("delete");
 
-        personGrid.setDataProvider(new EntityDataProvider<>(Person.class));
+        personGrid.setDataProvider(dataProvider);
         personGrid.setWidthFull();
         addAndExpand(personGrid);
+        updateFilter();
+    }
+
+    private void updateFilter() {
+        Condition c = Condition.NO_CONDITION;
+        if (!nameFilter.isEmpty()) {
+            c = c.and(Person.NAME.likeIgnoreCase(nameFilter.getValue().trim() + "%"));
+        }
+        dataProvider.setFilter(c);
     }
 }

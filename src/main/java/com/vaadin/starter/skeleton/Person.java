@@ -2,6 +2,8 @@ package com.vaadin.starter.skeleton;
 
 import com.gitlab.mvysny.jdbiorm.Dao;
 import com.gitlab.mvysny.jdbiorm.Entity;
+import com.gitlab.mvysny.jdbiorm.TableProperty;
+import org.jdbi.v3.core.annotation.JdbiProperty;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +37,23 @@ public class Person implements Entity<Long> {
     private Boolean isAlive;
     @NotNull
     private MaritalStatus maritalStatus;
+
+    @JdbiProperty(map = false)
+    public static final TableProperty<Person, Long> ID = TableProperty.of(Person.class, "id");
+    @JdbiProperty(map = false)
+    public static final TableProperty<Person, String> NAME = TableProperty.of(Person.class, "name");
+    @JdbiProperty(map = false)
+    public static final TableProperty<Person, Integer> AGE = TableProperty.of(Person.class, "age");
+    @JdbiProperty(map = false)
+    public static final TableProperty<Person, LocalDate> DATEOFBIRTH = TableProperty.of(Person.class, "dateOfBirth");
+    @JdbiProperty(map = false)
+    public static final TableProperty<Person, Instant> CREATED = TableProperty.of(Person.class, "created");
+    @JdbiProperty(map = false)
+    public static final TableProperty<Person, Instant> MODIFIED = TableProperty.of(Person.class, "modified");
+    @JdbiProperty(map = false)
+    public static final TableProperty<Person, Boolean> ISALIVE = TableProperty.of(Person.class, "isAlive");
+    @JdbiProperty(map = false)
+    public static final TableProperty<Person, MaritalStatus> MARITALSTATUS = TableProperty.of(Person.class, "maritalStatus");
 
     public enum MaritalStatus {
         Single,
