@@ -29,7 +29,9 @@ public class MainView extends VerticalLayout {
     public MainView() {
         setSizeFull();
         final Grid<Person> personGrid = new Grid<>();
+        // append first header row: the column captions and the sorting indicator will appear here.
         personGrid.appendHeaderRow();
+        // the second header row will host filter components.
         final HeaderRow filterBar = personGrid.appendHeaderRow();
         add(new Button("Re-generate test data", e -> {
             Bootstrap.generateTestingData();
