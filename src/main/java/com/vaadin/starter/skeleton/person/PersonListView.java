@@ -70,7 +70,7 @@ public class PersonListView extends VerticalLayout {
         personGrid.addColumn(Person::getMaritalStatus)
                 .setHeader("Marital Status")
                 .setSortable(true)
-                .setKey("maritalStatus");
+                .setKey(Person.MARITALSTATUS.getName().getName());
         personGrid.addColumn(new NativeButtonRenderer<>("Edit", item -> {
             final CreateEditPersonDialog dialog = new CreateEditPersonDialog(item);
             dialog.onSaveOrCreateListener = () -> personGrid.getDataProvider().refreshAll();
