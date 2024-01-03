@@ -1,4 +1,4 @@
-package com.vaadin.starter.skeleton.utils;
+package com.vaadin.starter.skeleton.filters;
 
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;

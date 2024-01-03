@@ -7,10 +7,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
-import com.vaadin.starter.skeleton.utils.FilterTextField;
+import com.vaadin.starter.skeleton.filters.FilterTextField;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
