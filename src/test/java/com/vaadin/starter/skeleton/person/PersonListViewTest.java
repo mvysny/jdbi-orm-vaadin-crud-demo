@@ -6,6 +6,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.starter.skeleton.AbstractAppLauncher;
 import com.vaadin.starter.skeleton.Bootstrap;
+import com.vaadin.starter.skeleton.filters.FilterTextField;
 import com.vaadin.starter.skeleton.person.Person;
 import com.vaadin.starter.skeleton.person.PersonForm;
 import com.vaadin.starter.skeleton.person.PersonListView;
@@ -49,6 +50,18 @@ public class PersonListViewTest extends AbstractAppLauncher {
         _clickRenderer(grid, 0, "delete");
         expectRows(grid, 0);
         assertNull(Person.dao.findByName("Jon Lord0"));
+    }
+
+    @Test
+    public void testFiltering() {
+        Person.createDummy(0);
+        final Grid<Person> grid = _get(Grid.class);
+        _setValue(_get(FilterTextField.class, spec -> spec.withId("nameFilter")), "foo");
+        expectRows(grid, 0);
+        _setValue(_get(FilterTextField.class, spec -> spec.withId("nameFilter")), "Jon Lord");
+        expectRows(grid, 1);
+        _setValue(_get(FilterTextField.class, spec -> spec.withId("nameFilter")), "");
+        expectRows(grid, 1);
     }
 
     /**

@@ -47,6 +47,7 @@ public class PersonListView extends VerticalLayout {
                 .setHeader("Name")
                 .setSortable(true)
                 .setKey("name");
+        nameFilter.setId("nameFilter");
         filterBar.getCell(nameColumn).setComponent(nameFilter);
         nameFilter.addValueChangeListener(e -> updateFilter());
         personGrid.addColumn(Person::getAge)
