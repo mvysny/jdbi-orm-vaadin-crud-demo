@@ -18,14 +18,14 @@ import java.time.format.FormatStyle;
  * The main view contains a button and a click listener.
  */
 @Route("")
-public class MainView extends VerticalLayout {
+public class PersonListView extends VerticalLayout {
 
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
             .withLocale(UI.getCurrent().getLocale());
     private final EntityDataProvider<Person> dataProvider = new EntityDataProvider<>(Person.class);
     private final FilterTextField nameFilter = new FilterTextField();
 
-    public MainView() {
+    public PersonListView() {
         setSizeFull();
         final Grid<Person> personGrid = new Grid<>();
         // append first header row: the column captions and the sorting indicator will appear here.

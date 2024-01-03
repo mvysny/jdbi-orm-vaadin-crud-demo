@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author mavi
  */
 @SuppressWarnings("unchecked")
-public class MainViewTest extends AbstractAppLauncher {
+public class PersonListViewTest extends AbstractAppLauncher {
     @BeforeEach
     public void navigateToMainView() {
         Person.dao.deleteAll();
@@ -26,7 +26,7 @@ public class MainViewTest extends AbstractAppLauncher {
 
     @Test
     public void smokeTest() {
-        _assertOne(MainView.class);
+        _assertOne(PersonListView.class);
     }
 
     @Test
