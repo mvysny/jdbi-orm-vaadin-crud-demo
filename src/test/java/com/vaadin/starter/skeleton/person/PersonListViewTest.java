@@ -6,6 +6,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.starter.skeleton.AbstractAppLauncher;
 import com.vaadin.starter.skeleton.Bootstrap;
+import com.vaadin.starter.skeleton.filters.BooleanFilterField;
 import com.vaadin.starter.skeleton.filters.FilterTextField;
 import com.vaadin.starter.skeleton.person.Person;
 import com.vaadin.starter.skeleton.person.PersonForm;
@@ -56,12 +57,23 @@ public class PersonListViewTest extends AbstractAppLauncher {
     public void testFiltering() {
         Person.createDummy(0);
         final Grid<Person> grid = _get(Grid.class);
-        _setValue(_get(FilterTextField.class, spec -> spec.withId("nameFilter")), "foo");
+
+        final FilterTextField nameFilter = _get(FilterTextField.class, spec -> spec.withId("nameFilter"));
+        _setValue(nameFilter, "foo");
         expectRows(grid, 0);
-        _setValue(_get(FilterTextField.class, spec -> spec.withId("nameFilter")), "Jon Lord");
+        _setValue(nameFilter, "Jon Lord");
         expectRows(grid, 1);
-        _setValue(_get(FilterTextField.class, spec -> spec.withId("nameFilter")), "");
+        _setValue(nameFilter, "");
         expectRows(grid, 1);
+
+        final BooleanFilterField aliveFilter = _get(BooleanFilterField.class, spec -> spec.withId("aliveFilter"));
+        _setValue(aliveFilter, true);
+        expectRows(grid, 1);
+        _setValue(aliveFilter, false);
+        expectRows(grid, 0);
+        _setValue(aliveFilter, true);
+        _setValue(nameFilter, "foo");
+        expectRows(grid, 0);
     }
 
     /**

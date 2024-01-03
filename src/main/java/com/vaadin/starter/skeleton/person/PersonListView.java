@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.starter.skeleton.Bootstrap;
+import com.vaadin.starter.skeleton.filters.BooleanFilterField;
 import com.vaadin.starter.skeleton.filters.FilterTextField;
 
 import java.time.format.DateTimeFormatter;
@@ -25,6 +26,7 @@ public class PersonListView extends VerticalLayout {
             .withLocale(UI.getCurrent().getLocale());
     private final EntityDataProvider<Person> dataProvider = new EntityDataProvider<>(Person.class);
     private final FilterTextField nameFilter = new FilterTextField();
+    private final BooleanFilterField aliveFilter = new BooleanFilterField();
 
     public PersonListView() {
         setSizeFull();
@@ -42,26 +44,29 @@ public class PersonListView extends VerticalLayout {
         personGrid.addColumn(Person::getId)
                 .setHeader("ID")
                 .setSortable(true)
-                .setKey("id");
+                .setKey(Person.ID.getName().getName());
         final Grid.Column<Person> nameColumn = personGrid.addColumn(Person::getName)
                 .setHeader("Name")
                 .setSortable(true)
-                .setKey("name");
+                .setKey(Person.NAME.getName().getName());
         nameFilter.setId("nameFilter");
         filterBar.getCell(nameColumn).setComponent(nameFilter);
         nameFilter.addValueChangeListener(e -> updateFilter());
         personGrid.addColumn(Person::getAge)
                 .setHeader("Age")
                 .setSortable(true)
-                .setKey("age");
-        personGrid.addColumn(Person::getAlive)
+                .setKey(Person.AGE.getName().getName());
+        final Grid.Column<Person> aliveColumn = personGrid.addColumn(Person::getAlive)
                 .setHeader("Alive")
                 .setSortable(true)
-                .setKey("isAlive");
+                .setKey(Person.ISALIVE.getName().getName());
+        aliveFilter.setId("aliveFilter");
+        filterBar.getCell(aliveColumn).setComponent(aliveFilter);
+        aliveFilter.addValueChangeListener(e -> updateFilter());
         personGrid.addColumn(it -> dateFormatter.format(it.getDateOfBirth()))
                 .setHeader("Date Of Birth")
                 .setSortable(true)
-                .setKey("dateOfBirth");
+                .setKey(Person.DATEOFBIRTH.getName().getName());
         personGrid.addColumn(Person::getMaritalStatus)
                 .setHeader("Marital Status")
                 .setSortable(true)
@@ -87,6 +92,9 @@ public class PersonListView extends VerticalLayout {
         Condition c = Condition.NO_CONDITION;
         if (!nameFilter.isEmpty()) {
             c = c.and(Person.NAME.likeIgnoreCase(nameFilter.getValue().trim() + "%"));
+        }
+        if (!aliveFilter.isEmpty()) {
+            c = c.and(aliveFilter.getValue() ? Person.ISALIVE.isTrue() : Person.ISALIVE.isFalse());
         }
         dataProvider.setFilter(c);
     }
