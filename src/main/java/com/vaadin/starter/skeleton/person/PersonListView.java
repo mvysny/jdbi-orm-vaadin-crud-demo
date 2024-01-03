@@ -11,6 +11,7 @@ import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.starter.skeleton.Bootstrap;
 import com.vaadin.starter.skeleton.filters.BooleanFilterField;
+import com.vaadin.starter.skeleton.filters.EnumFilterField;
 import com.vaadin.starter.skeleton.filters.FilterTextField;
 
 import java.time.format.DateTimeFormatter;
@@ -27,6 +28,7 @@ public class PersonListView extends VerticalLayout {
     private final EntityDataProvider<Person> dataProvider = new EntityDataProvider<>(Person.class);
     private final FilterTextField nameFilter = new FilterTextField();
     private final BooleanFilterField aliveFilter = new BooleanFilterField();
+    private final EnumFilterField<Person.MaritalStatus> maritalStatusFilter = new EnumFilterField<>(Person.MaritalStatus.class);
 
     public PersonListView() {
         setSizeFull();
@@ -67,10 +69,13 @@ public class PersonListView extends VerticalLayout {
                 .setHeader("Date Of Birth")
                 .setSortable(true)
                 .setKey(Person.DATEOFBIRTH.getName().getName());
-        personGrid.addColumn(Person::getMaritalStatus)
+        final Grid.Column<Person> maritalStatusColumn = personGrid.addColumn(Person::getMaritalStatus)
                 .setHeader("Marital Status")
                 .setSortable(true)
                 .setKey(Person.MARITALSTATUS.getName().getName());
+        maritalStatusFilter.setId("maritalStatusFilter");
+        filterBar.getCell(maritalStatusColumn).setComponent(maritalStatusFilter);
+        maritalStatusFilter.addValueChangeListener(e -> updateFilter());
         personGrid.addColumn(new NativeButtonRenderer<>("Edit", item -> {
             final CreateEditPersonDialog dialog = new CreateEditPersonDialog(item);
             dialog.onSaveOrCreateListener = () -> personGrid.getDataProvider().refreshAll();
@@ -95,6 +100,9 @@ public class PersonListView extends VerticalLayout {
         }
         if (!aliveFilter.isEmpty()) {
             c = c.and(aliveFilter.getValue() ? Person.ISALIVE.isTrue() : Person.ISALIVE.isFalse());
+        }
+        if (!maritalStatusFilter.isAllOrNothingSelected()) {
+            c = c.and(Person.MARITALSTATUS.in(maritalStatusFilter.getValue()));
         }
         dataProvider.setFilter(c);
     }
