@@ -1,9 +1,14 @@
-package com.vaadin.starter.skeleton;
+package com.vaadin.starter.skeleton.person;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.starter.skeleton.AbstractAppLauncher;
+import com.vaadin.starter.skeleton.Bootstrap;
+import com.vaadin.starter.skeleton.person.Person;
+import com.vaadin.starter.skeleton.person.PersonForm;
+import com.vaadin.starter.skeleton.person.PersonListView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.vaadin.starter.skeleton;
+package com.vaadin.starter.skeleton.person;
 
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;

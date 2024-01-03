@@ -1,6 +1,7 @@
 package com.vaadin.starter.skeleton;
 
 import com.gitlab.mvysny.jdbiorm.JdbiOrm;
+import com.vaadin.starter.skeleton.person.Person;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.flywaydb.core.Flyway;

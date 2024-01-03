@@ -1,4 +1,4 @@
-package com.vaadin.starter.skeleton;
+package com.vaadin.starter.skeleton.person;
 
 import com.gitlab.mvysny.jdbiorm.condition.Condition;
 import com.gitlab.mvysny.jdbiorm.vaadin.EntityDataProvider;
@@ -9,6 +9,7 @@ import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
+import com.vaadin.starter.skeleton.Bootstrap;
 import com.vaadin.starter.skeleton.filters.FilterTextField;
 
 import java.time.format.DateTimeFormatter;
