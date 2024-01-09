@@ -203,7 +203,7 @@ public class Person implements Entity<Long> {
     @org.jetbrains.annotations.NotNull
     public static Person createDummy(int i) {
         final Person person = new Person("Jon Lord" + i, 42);
-        person.setDateOfBirth(LocalDate.of(1970, 1, 12).plusDays(i));
+        person.setDateOfBirth(LocalDate.now().plusDays(i));
         person.setAlive(i % 2 == 0);
         person.setMaritalStatus(Person.MaritalStatus.values()[i % MaritalStatus.values().length]);
         person.save();
