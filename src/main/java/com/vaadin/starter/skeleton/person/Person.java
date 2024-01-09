@@ -191,7 +191,7 @@ public class Person implements Entity<Long> {
 
         @Nullable
         public Person findByName(@org.jetbrains.annotations.NotNull String name) {
-            return findSingleBy("name=:name", q -> q.bind("name", name));
+            return findSingleBy(Person.NAME.eq(name));
         }
     }
 
