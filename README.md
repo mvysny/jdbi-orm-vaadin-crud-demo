@@ -18,11 +18,12 @@ See the [live demo](https://v-herd.eu/jdbi-orm-vaadin-crud-demo/).
 Please see the [Vaadin Boot](https://github.com/mvysny/vaadin-boot#preparing-environment) documentation
 on how you run, develop and package this Vaadin-Boot-based app.
 
+To run the app, simply run the `Main.main()` method from your IDE.
+
 ## Database
 
-Without the database, we could store the categories and reviews into session only, which would then be gone when the server rebooted.
-We will use the [Vaadin-on-Kotlin](http://vaadinonkotlin.eu/)'s SQL database support. To make things easy we'll
-use in-memory H2 database which will be gone when the server is rebooted - *touche* :-D
+To make things easy we'll use in-memory H2 database. We'll use the [jdbi-orm-vaadin](https://gitlab.com/mvysny/jdbi-orm-vaadin)
+library to create Grid filters easily.
 
 We will use [Flyway](https://flywaydb.org/) for database migration. Check out [Bootstrap](src/main/java/com/vaadin/starter/skeleton/Bootstrap.java)
 on how the [migration scripts](src/main/resources/db/migration) are ran when the app is initialized.
@@ -69,6 +70,9 @@ run
 ```bash
 $ docker-compose up
 ```
+
+This command will build this project in production mode, then create a Docker image out of that,
+and will run the app with Postgres.
 
 ## Kubernetes
 
