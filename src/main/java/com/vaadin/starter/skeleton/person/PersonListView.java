@@ -124,7 +124,7 @@ public class PersonListView extends VerticalLayout {
             c = c.and(Person.AGE.between(ageInterval.getStart(), ageInterval.getEndInclusive()));
         }
         if (!aliveFilter.isEmpty()) {
-            c = c.and(aliveFilter.getValue() ? Person.ISALIVE.isTrue() : Person.ISALIVE.isFalse());
+            c = c.and(Person.ISALIVE.is(aliveFilter.getValue()));
         }
         if (!maritalStatusFilter.isAllOrNothingSelected()) {
             c = c.and(Person.MARITALSTATUS.in(maritalStatusFilter.getValue()));
