@@ -20,6 +20,11 @@ public class CreateEditPersonDialog extends Dialog {
     @NotNull
     public final Person person;
 
+    /**
+     * A listener, invoked by this dialog when the user presses the "OK" button,
+     * the new data passes the validation and has been written to the database.
+     * The dialog will be closed automatically.
+     */
     @NotNull
     public Runnable onSaveOrCreateListener = () -> {};
 

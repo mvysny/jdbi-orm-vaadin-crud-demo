@@ -11,20 +11,45 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.starter.skeleton.Bootstrap;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 /**
- * The main view contains a button and a click listener.
+ * The main view contains a Grid which shows the list of {@link Person}s. The Grid supports
+ * sorting and filtering.
  */
 @Route("")
 public class PersonListView extends VerticalLayout {
 
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-            .withLocale(UI.getCurrent().getLocale());
+    private transient DateTimeFormatter dateFormatter;
+
+    /**
+     * Cached date formatter, used to format {@link Person#DATEOFBIRTH}.
+     * @return the date formatter, not null.
+     */
+    @NotNull
+    private DateTimeFormatter getDateFormatter() {
+        if (dateFormatter == null) {
+            dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    .withLocale(UI.getCurrent().getLocale());
+        }
+        return dateFormatter;
+    }
+
+    /**
+     * Loads {@link Person} from the database. Grid calls this.
+     */
+    @NotNull
     private final EntityDataProvider<Person> dataProvider = new EntityDataProvider<>(Person.class);
 
+    /**
+     * Filter bar components follow. Whenever a filter component is changed, the SQL WHERE Condition
+     * is reconstructed in {@link #updateFilter()} and set to {@link #dataProvider} via {@link EntityDataProvider#setFilter(Condition)}.
+     * That forces the Grid to refresh itself and reload the data it shows, using
+     * the newly set Condition.
+     */
     private final NumberRangePopup idFilter = new NumberRangePopup();
     private final FilterTextField nameFilter = new FilterTextField();
     private final NumberRangePopup ageFilter = new NumberRangePopup();
@@ -44,7 +69,6 @@ public class PersonListView extends VerticalLayout {
             personGrid.getDataProvider().refreshAll();
         }));
 
-        // Don't forget to add database index to every sortable column.
         final Grid.Column<Person> idColumn = personGrid.addColumn(Person::getId)
                 .setHeader("ID")
                 .setSortable(true)
@@ -77,7 +101,7 @@ public class PersonListView extends VerticalLayout {
         filterBar.getCell(aliveColumn).setComponent(aliveFilter);
         aliveFilter.addValueChangeListener(e -> updateFilter());
 
-        final Grid.Column<Person> dobColumn = personGrid.addColumn(it -> dateFormatter.format(it.getDateOfBirth()))
+        final Grid.Column<Person> dobColumn = personGrid.addColumn(it -> getDateFormatter().format(it.getDateOfBirth()))
                 .setHeader("Date Of Birth")
                 .setSortable(true)
                 .setKey(Person.DATEOFBIRTH.getName().getName());
@@ -110,7 +134,12 @@ public class PersonListView extends VerticalLayout {
         updateFilter();
     }
 
+    /**
+     * Recalculates the filter Condition and sets it to the {@link #dataProvider}
+     * via {@link EntityDataProvider#setFilter(Condition)}.
+     */
     private void updateFilter() {
+        // poll all filter components and calculate the new SQL WHERE Condition.
         Condition c = Condition.NO_CONDITION;
         if (!idFilter.isEmpty()) {
             final NumberInterval<Long> idInterval = idFilter.getValue().asLongInterval();
@@ -133,6 +162,8 @@ public class PersonListView extends VerticalLayout {
             final DateInterval dobInterval = dateOfBirthFilter.getValue();
             c = c.and(Person.DATEOFBIRTH.between(dobInterval.getStart(), dobInterval.getEndInclusive()));
         }
+        // Set the new filter. This forces the associated Grid to refresh itself and reload the data it shows, using
+        // the newly set Condition.
         dataProvider.setFilter(c);
     }
 }
