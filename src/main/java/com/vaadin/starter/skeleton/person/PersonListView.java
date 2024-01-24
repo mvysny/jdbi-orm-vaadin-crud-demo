@@ -72,7 +72,7 @@ public class PersonListView extends VerticalLayout {
         final Grid.Column<Person> idColumn = personGrid.addColumn(Person::getId)
                 .setHeader("ID")
                 .setSortable(true)
-                .setKey(Person.ID.getName().getName());
+                .setKey(Person.ID.toExternalString());
         idFilter.setId("idFilter");
         idFilter.addValueChangeListener(e -> updateFilter());
         filterBar.getCell(idColumn).setComponent(idFilter);
@@ -80,7 +80,7 @@ public class PersonListView extends VerticalLayout {
         final Grid.Column<Person> nameColumn = personGrid.addColumn(Person::getName)
                 .setHeader("Name")
                 .setSortable(true)
-                .setKey(Person.NAME.getName().getName());
+                .setKey(Person.NAME.toExternalString());
         nameFilter.setId("nameFilter");
         filterBar.getCell(nameColumn).setComponent(nameFilter);
         nameFilter.addValueChangeListener(e -> updateFilter());
@@ -88,7 +88,7 @@ public class PersonListView extends VerticalLayout {
         final Grid.Column<Person> ageColumn = personGrid.addColumn(Person::getAge)
                 .setHeader("Age")
                 .setSortable(true)
-                .setKey(Person.AGE.getName().getName());
+                .setKey(Person.AGE.toExternalString());
         ageFilter.setId("ageFilter");
         ageFilter.addValueChangeListener(e -> updateFilter());
         filterBar.getCell(ageColumn).setComponent(ageFilter);
@@ -96,7 +96,7 @@ public class PersonListView extends VerticalLayout {
         final Grid.Column<Person> aliveColumn = personGrid.addColumn(Person::getAlive)
                 .setHeader("Alive")
                 .setSortable(true)
-                .setKey(Person.ISALIVE.getName().getName());
+                .setKey(Person.ISALIVE.toExternalString());
         aliveFilter.setId("aliveFilter");
         filterBar.getCell(aliveColumn).setComponent(aliveFilter);
         aliveFilter.addValueChangeListener(e -> updateFilter());
@@ -104,7 +104,7 @@ public class PersonListView extends VerticalLayout {
         final Grid.Column<Person> dobColumn = personGrid.addColumn(it -> getDateFormatter().format(it.getDateOfBirth()))
                 .setHeader("Date Of Birth")
                 .setSortable(true)
-                .setKey(Person.DATEOFBIRTH.getName().getName());
+                .setKey(Person.DATEOFBIRTH.toExternalString());
         dateOfBirthFilter.setId("dateOfBirthFilter");
         dateOfBirthFilter.addValueChangeListener(e -> updateFilter());
         filterBar.getCell(dobColumn).setComponent(dateOfBirthFilter);
@@ -112,7 +112,7 @@ public class PersonListView extends VerticalLayout {
         final Grid.Column<Person> maritalStatusColumn = personGrid.addColumn(Person::getMaritalStatus)
                 .setHeader("Marital Status")
                 .setSortable(true)
-                .setKey(Person.MARITALSTATUS.getName().getName());
+                .setKey(Person.MARITALSTATUS.toExternalString());
         maritalStatusFilter.setId("maritalStatusFilter");
         filterBar.getCell(maritalStatusColumn).setComponent(maritalStatusFilter);
         maritalStatusFilter.addValueChangeListener(e -> updateFilter());

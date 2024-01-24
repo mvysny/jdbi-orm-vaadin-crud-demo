@@ -1,15 +1,24 @@
 package com.vaadin.starter.skeleton.person;
 
+import com.github.mvysny.kaributesting.v10.GridKt;
 import com.gitlab.mvysny.jdbiorm.vaadin.filter.BooleanFilterField;
 import com.gitlab.mvysny.jdbiorm.vaadin.filter.FilterTextField;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.SortDirection;
 import com.vaadin.starter.skeleton.AbstractAppLauncher;
 import com.vaadin.starter.skeleton.Bootstrap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.github.mvysny.kaributesting.v10.GridKt.*;
 import static com.github.mvysny.kaributesting.v10.LocatorJ.*;
@@ -71,6 +80,29 @@ public class PersonListViewTest extends AbstractAppLauncher {
         _setValue(aliveFilter, true);
         _setValue(nameFilter, "foo");
         expectRows(grid, 0);
+    }
+
+    @Test
+    public void testGridSorting() {
+        Bootstrap.generateTestingData();
+        final Grid<Person> grid = _get(Grid.class);
+        _sortByKey(grid, Person.ID.toExternalString(), SortDirection.DESCENDING);
+        final List<Integer> gridRows = new ArrayList<>(new LinkedHashSet<>(_findAll(grid).stream().map(Person::getAge).toList()));
+        final List<Integer> expected = new ArrayList<>(IntStream.range(15, 82).boxed().toList());
+        Collections.reverse(expected);
+        assertEquals(expected, gridRows);
+
+        // smoke tests, to make sure sorting doesn't blow up
+        _sortByKey(grid, Person.NAME.toExternalString(), SortDirection.DESCENDING);
+        _findAll(grid);
+        _sortByKey(grid, Person.AGE.toExternalString(), SortDirection.DESCENDING);
+        _findAll(grid);
+        _sortByKey(grid, Person.ISALIVE.toExternalString(), SortDirection.DESCENDING);
+        _findAll(grid);
+        _sortByKey(grid, Person.DATEOFBIRTH.toExternalString(), SortDirection.DESCENDING);
+        _findAll(grid);
+        _sortByKey(grid, Person.MARITALSTATUS.toExternalString(), SortDirection.DESCENDING);
+        _findAll(grid);
     }
 
     /**

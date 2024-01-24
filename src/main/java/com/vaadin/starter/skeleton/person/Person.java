@@ -3,7 +3,6 @@ package com.vaadin.starter.skeleton.person;
 import com.gitlab.mvysny.jdbiorm.Dao;
 import com.gitlab.mvysny.jdbiorm.Entity;
 import com.gitlab.mvysny.jdbiorm.TableProperty;
-import org.jdbi.v3.core.annotation.JdbiProperty;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,21 +37,13 @@ public class Person implements Entity<Long> {
     @NotNull
     private MaritalStatus maritalStatus;
 
-    @JdbiProperty(map = false)
     public static final TableProperty<Person, Long> ID = TableProperty.of(Person.class, "id");
-    @JdbiProperty(map = false)
     public static final TableProperty<Person, String> NAME = TableProperty.of(Person.class, "name");
-    @JdbiProperty(map = false)
     public static final TableProperty<Person, Integer> AGE = TableProperty.of(Person.class, "age");
-    @JdbiProperty(map = false)
     public static final TableProperty<Person, LocalDate> DATEOFBIRTH = TableProperty.of(Person.class, "dateOfBirth");
-    @JdbiProperty(map = false)
     public static final TableProperty<Person, Instant> CREATED = TableProperty.of(Person.class, "created");
-    @JdbiProperty(map = false)
     public static final TableProperty<Person, Instant> MODIFIED = TableProperty.of(Person.class, "modified");
-    @JdbiProperty(map = false)
     public static final TableProperty<Person, Boolean> ISALIVE = TableProperty.of(Person.class, "isAlive");
-    @JdbiProperty(map = false)
     public static final TableProperty<Person, MaritalStatus> MARITALSTATUS = TableProperty.of(Person.class, "maritalStatus");
 
     public enum MaritalStatus {
@@ -202,7 +193,7 @@ public class Person implements Entity<Long> {
      */
     @org.jetbrains.annotations.NotNull
     public static Person createDummy(int i) {
-        final Person person = new Person("Jon Lord" + i, 42);
+        final Person person = new Person("Jon Lord" + i, 15 + (i / 3));
         person.setDateOfBirth(LocalDate.now().plusDays(i));
         person.setAlive(i % 2 == 0);
         person.setMaritalStatus(Person.MaritalStatus.values()[i % MaritalStatus.values().length]);
