@@ -13,6 +13,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.starter.skeleton.Bootstrap;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -141,27 +142,18 @@ public class PersonListView extends VerticalLayout {
     private void updateFilter() {
         // poll all filter components and calculate the new SQL WHERE Condition.
         Condition c = Condition.NO_CONDITION;
-        if (!idFilter.isEmpty()) {
-            final NumberInterval<Long> idInterval = idFilter.getValue().asLongInterval();
-            c = c.and(Person.ID.between(idInterval.getStart(), idInterval.getEndInclusive()));
-        }
+        c = c.and(idFilter.getValue().asLongInterval().contains(Person.ID));
         if (!nameFilter.isEmpty()) {
             c = c.and(Person.NAME.likeIgnoreCase(nameFilter.getValue().trim() + "%"));
         }
-        if (!ageFilter.isEmpty()) {
-            final NumberInterval<Integer> ageInterval = ageFilter.getValue().asIntegerInterval();
-            c = c.and(Person.AGE.between(ageInterval.getStart(), ageInterval.getEndInclusive()));
-        }
+        c = c.and(ageFilter.getValue().asIntegerInterval().contains(Person.AGE));
         if (!aliveFilter.isEmpty()) {
             c = c.and(Person.ISALIVE.is(aliveFilter.getValue()));
         }
         if (!maritalStatusFilter.isAllOrNothingSelected()) {
             c = c.and(Person.MARITALSTATUS.in(maritalStatusFilter.getValue()));
         }
-        if (!dateOfBirthFilter.isEmpty()) {
-            final DateInterval dobInterval = dateOfBirthFilter.getValue();
-            c = c.and(Person.DATEOFBIRTH.between(dobInterval.getStart(), dobInterval.getEndInclusive()));
-        }
+        c = c.and(dateOfBirthFilter.getValue().contains(Person.DATEOFBIRTH, ZoneId.systemDefault()));
         // Set the new filter. This forces the associated Grid to refresh itself and reload the data it shows, using
         // the newly set Condition.
         dataProvider.setFilter(c);
