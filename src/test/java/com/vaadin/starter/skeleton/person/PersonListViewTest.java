@@ -1,6 +1,5 @@
 package com.vaadin.starter.skeleton.person;
 
-import com.github.mvysny.kaributesting.v10.GridKt;
 import com.gitlab.mvysny.jdbiorm.vaadin.filter.BooleanFilterField;
 import com.gitlab.mvysny.jdbiorm.vaadin.filter.FilterTextField;
 import com.vaadin.flow.component.UI;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.github.mvysny.kaributesting.v10.GridKt.*;

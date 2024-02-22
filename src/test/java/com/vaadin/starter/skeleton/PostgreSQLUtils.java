@@ -17,7 +17,7 @@ public class PostgreSQLUtils {
     public void start() {
         if (isTestWithPGSQL()) {
             System.out.println("Running tests with PostgreSQL");
-            container = new PostgreSQLContainer<>("postgres:15.2");
+            container = new PostgreSQLContainer<>("postgres:16.2");
             container.start();
             Bootstrap.jdbcUrl = container.getJdbcUrl();
             Bootstrap.jdbcUsername = container.getUsername();
