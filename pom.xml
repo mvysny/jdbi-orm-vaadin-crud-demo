@@ -14,7 +14,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <vaadin.version>24.3.8</vaadin.version>
+        <vaadin.version>24.4.4</vaadin.version>
     </properties>
 
     <dependencyManagement>
@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
-            <version>10.8.1</version>
+            <version>10.15.2</version>
         </dependency>
 
         <dependency>
@@ -95,12 +95,12 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.2</version>
+            <version>42.7.3</version>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
-            <version>1.19.4</version>
+            <version>1.19.8</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
