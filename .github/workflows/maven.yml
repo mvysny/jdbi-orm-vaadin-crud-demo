@@ -26,6 +26,6 @@ jobs:
           ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '.mvn/wrapper/maven-wrapper.properties') }}
     - name: Build with Maven
-      run: ./mvnw -C -B -e -V clean package -Pproduction
+      run: ./mvnw -C -B -e -V clean package 
     - name: Test on PostgreSQL
       run: ./mvnw -C -B -e -V test -DargLine="-Dtest.postgresql"
